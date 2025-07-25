@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve the icon file specifically
 app.get('/icon.png', (req, res) => {
-  res.sendFile(path.join(__dirname, 'icon.png'));
+  res.sendFile(path.join(__dirname, 'public', 'icon.png'));
 });
 
 // Endpoint for Journey Builder to load the configuration UI

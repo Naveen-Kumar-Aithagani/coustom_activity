@@ -1,7 +1,7 @@
 {
   "workflowApiVersion": "1.1",
   "metaData": {
-    "icon": "https://coustom-activity.vercel.app/icon.png",
+    "icon": "/icon.png",
     "category": "message"
   },
   "type": "REST",
@@ -15,7 +15,7 @@
     "execute": {
       "inArguments": ["url", "method", "headers", "body", "auth"],
       "outArguments": [],
-      "url": "https://coustom-activity.vercel.app/execute",
+      "url": "/execute",
       "timeout": 10000,
       "retryCount": 3,
       "retryDelay": 1000,
@@ -26,15 +26,15 @@
   "configurationArguments": {
     "applicationExtensionKey": "postman-api-call-activity",
     "save": {
-      "url": "https://coustom-activity.vercel.app/save"
+      "url": "/save"
     },
     "validate": {
-      "url": "https://coustom-activity.vercel.app/validate"
+      "url": "/validate"
     }
   },
   "userInterfaces": {
     "configModal": {
-      "url": "https://coustom-activity.vercel.app/index.html",
+      "url": "/index.html",
       "height": 600,
       "width": 800
     }
