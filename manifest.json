@@ -1,7 +1,7 @@
 {
   "workflowApiVersion": "1.1",
   "metaData": {
-    "icon": "https://sfmc-ca.vercel.app/icon.png",
+    "icon": "https://coustom-activity.vercel.app/icon.png",
     "category": "custom"
   },
   "type": "REST",
@@ -23,7 +23,7 @@
         }
       ],
       "outArguments": [],
-      "url": "https://sfmc-ca.vercel.app/execute",
+      "url": "https://coustom-activity.vercel.app/execute",
       "timeout": 10000,
       "retryCount": 3,
       "retryDelay": 1000,
@@ -34,15 +34,15 @@
   "configurationArguments": {
     "applicationExtensionKey": "postman-api-call-activity",
     "save": {
-      "url": "https://sfmc-ca.vercel.app/save"
+      "url": "https://coustom-activity.vercel.app/save"
     },
     "validate": {
-      "url": "https://sfmc-ca.vercel.app/validate"
+      "url": "https://coustom-activity.vercel.app/validate"
     }
   },
   "userInterfaces": {
     "configModal": {
-      "url": "https://sfmc-ca.vercel.app/public/index.html",
+      "url": "https://coustom-activity.vercel.app/public/index.html",
       "height": 600,
       "width": 800
     }
