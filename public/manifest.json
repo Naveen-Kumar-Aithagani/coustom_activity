@@ -2,7 +2,7 @@
   "workflowApiVersion": "1.1",
   "metaData": {
     "icon": "https://coustom-activity.vercel.app/icon.png",
-    "category": "custom"
+    "category": "message"
   },
   "type": "REST",
   "lang": {
