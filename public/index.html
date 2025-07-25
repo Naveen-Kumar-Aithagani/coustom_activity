@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://your-sfmc-domain.com/postmonger.js"></script>
+  <script src="customActivity.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: #f4f6fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+      padding: 32px 36px 24px 36px;
+    }
+    h3 {
+      margin-top: 0;
+      font-weight: 700;
+      color: #2d3748;
+      letter-spacing: 0.5px;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 0;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .tab {
+      padding: 12px 28px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #718096;
+      font-weight: 500;
+      transition: color 0.2s, border-bottom 0.2s;
+      outline: none;
+    }
+    .tab.active {
+      color: #2563eb;
+      border-bottom: 2.5px solid #2563eb;
+      background: #f4f8ff;
+    }
+    .tab:hover:not(.active) {
+      color: #2563eb;
+      background: #f0f4fa;
+    }
+    .tab-content {
+      border: none;
+      padding: 24px 0 0 0;
+      background: none;
+      min-height: 120px;
+    }
+    .form-row {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    label {
+      font-weight: 500;
+      color: #374151;
+      flex: 1;
+    }
+    input[type="text"],
+    input[type="password"],
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 8px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      background: #f9fafb;
+      color: #2d3748;
+      transition: border 0.2s;
+      outline: none;
+      margin-top: 4px;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2563eb;
+      background: #fff;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+    }
+    .header-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .header-row input {
+      width: 40%;
+    }
+    .add-header {
+      margin-top: 8px;
+      background: #e0e7ff;
+      color: #2563eb;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-header:hover {
+      background: #c7d2fe;
+    }
+    .var-picker {
+      margin-left: 8px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      color: #2563eb;
+      font-weight: 500;
+      font-size: 0.98rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .header-row button {
+      background: #f87171;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .header-row button:hover {
+      background: #dc2626;
+    }
+    #saveBtn {
+      margin-top: 24px;
+      background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 12px 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.5px;
+      display: block;
+      width: 100%;
+    }
+    #saveBtn:hover {
+      background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+      box-shadow: 0 4px 16px rgba(37,99,235,0.13);
+    }
+    #preview-json {
+      background: #f1f5f9;
+      border-radius: 7px;
+      padding: 18px 16px;
+      font-size: 1rem;
+      color: #334155;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      overflow-x: auto;
+      margin-top: 8px;
+    }
+    @media (max-width: 800px) {
+      .container { padding: 16px 4vw; }
+      .tabs { flex-direction: column; }
+      .tab { width: 100%; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Configure API Request</h3>
+    <div class="tabs">
+      <button class="tab active" data-tab="request" type="button">Request</button>
+      <button class="tab" data-tab="auth" type="button">Auth</button>
+      <button class="tab" data-tab="headers" type="button">Headers</button>
+      <button class="tab" data-tab="body" type="button">Body</button>
+      <button class="tab" data-tab="preview" type="button">Preview</button>
+    </div>
+    <div class="tab-content" id="tab-request">
+      <div class="form-row">
+        <label>URL: <input type="text" id="url"> <select class="var-picker" data-target="url"></select></label>
+      </div>
+      <div class="form-row">
+        <label>Method: <select id="method">
+          <option>GET</option>
+          <option>POST</option>
+          <option>PUT</option>
+          <option>DELETE</option>
+          <option>PATCH</option>
+        </select></label>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-auth" style="display:none;">
+      <div class="form-row">
+        <label>Auth Type:
+          <select id="auth-type">
+            <option value="none">None</option>
+            <option value="bearer">Bearer Token (via API call)</option>
+            <option value="basic">Basic Auth</option>
+            <option value="oauth2">OAuth2 (client_credentials)</option>
+          </select>
+        </label>
+      </div>
+      <div id="auth-fields"></div>
+    </div>
+    <div class="tab-content" id="tab-headers" style="display:none;">
+      <div id="headers-list"></div>
+      <button class="add-header" type="button" id="add-header">+ Add Header</button>
+    </div>
+    <div class="tab-content" id="tab-body" style="display:none;">
+      <label>Body (JSON): <textarea id="body"></textarea> <select class="var-picker" data-target="body"></select></label>
+    </div>
+    <div class="tab-content" id="tab-preview" style="display:none;">
+      <pre id="preview-json"></pre>
+    </div>
+    <button id="saveBtn">Save</button>
+  </div>
+  <script>
+    // Tab logic
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = {
+      request: document.getElementById('tab-request'),
+      auth: document.getElementById('tab-auth'),
+      headers: document.getElementById('tab-headers'),
+      body: document.getElementById('tab-body'),
+      preview: document.getElementById('tab-preview')
+    };
+    tabs.forEach(tab => {
+      tab.onclick = () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        Object.keys(tabContents).forEach(k => tabContents[k].style.display = 'none');
+        tabContents[tab.dataset.tab].style.display = '';
+        if (tab.dataset.tab === 'preview') updatePreview();
+      };
+    });
+    // Header logic
+    const headersList = document.getElementById('headers-list');
+    document.getElementById('add-header').onclick = () => addHeaderRow('', '');
+    function addHeaderRow(key, value) {
+      const row = document.createElement('div');
+      row.className = 'header-row';
+      const keyInput = document.createElement('input');
+      keyInput.placeholder = 'Header Name';
+      keyInput.value = key;
+      const valueInput = document.createElement('input');
+      valueInput.placeholder = 'Header Value';
+      valueInput.value = value;
+      const varPicker = createVarPicker('header', valueInput);
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.textContent = 'Remove';
+      removeBtn.onclick = () => row.remove();
+      row.append(keyInput, valueInput, varPicker, removeBtn);
+      headersList.appendChild(row);
+    }
+    // Auth fields logic
+    const authFields = document.getElementById('auth-fields');
+    document.getElementById('auth-type').onchange = function() {
+      renderAuthFields(this.value);
+    };
+    function renderAuthFields(type) {
+      authFields.innerHTML = '';
+      if (type === 'bearer') {
+        authFields.innerHTML = `
+          <div class='form-row'><label>Auth URL: <input type='text' id='auth-url'></label></div>
+          <div class='form-row'><label>Method: <select id='auth-method'><option>POST</option><option>GET</option></select></label></div>
+          <div class='form-row'><label>Headers (JSON): <textarea id='auth-headers'></textarea></label></div>
+          <div class='form-row'><label>Body (JSON): <textarea id='auth-body'></textarea></label></div>
+          <div class='form-row'><label>Token Path (e.g., access_token): <input type='text' id='auth-token-path'></label></div>
+        `;
+      } else if (type === 'basic') {
+        authFields.innerHTML = `
+          <div class='form-row'><label>Username: <input type='text' id='auth-username'></label></div>
+          <div class='form-row'><label>Password: <input type='password' id='auth-password'></label></div>
+        `;
+      } else if (type === 'oauth2') {
+        authFields.innerHTML = `
+          <div class='form-row'><label>Token URL: <input type='text' id='oauth-token-url'></label></div>
+          <div class='form-row'><label>Client ID: <input type='text' id='oauth-client-id'></label></div>
+          <div class='form-row'><label>Client Secret: <input type='password' id='oauth-client-secret'></label></div>
+          <div class='form-row'><label>Scope: <input type='text' id='oauth-scope'></label></div>
+          <div class='form-row'><label>Headers (JSON): <textarea id='oauth-headers'></textarea></label></div>
+        `;
+      }
+    }
+    // Variable picker logic
+    const journeyVars = [
+      '{{Contact.Email}}',
+      '{{Contact.Key}}',
+      '{{Event.Data.FirstName}}',
+      '{{Event.Data.LastName}}'
+    ];
+    function createVarPicker(type, targetInput) {
+      const picker = document.createElement('select');
+      picker.className = 'var-picker';
+      picker.innerHTML = '<option value="">Insert Variable</option>' + journeyVars.map(v => `<option value="${v}">${v}</option>`).join('');
+      picker.onchange = function() {
+        if (this.value) {
+          if (type === 'header') {
+            targetInput.value += this.value;
+          }
+        }
+      };
+      return picker;
+    }
+    // Attach variable pickers to static fields
+    document.querySelectorAll('.var-picker').forEach(picker => {
+      picker.innerHTML = '<option value="">Insert Variable</option>' + journeyVars.map(v => `<option value="${v}">${v}</option>`).join('');
+      picker.onchange = function() {
+        if (this.value) {
+          const target = document.getElementById(this.dataset.target);
+          if (target) target.value += this.value;
+        }
+      };
+    });
+    // Preview logic
+    function updatePreview() {
+      const preview = {
+        url: document.getElementById('url').value,
+        method: document.getElementById('method').value,
+        headers: {},
+        body: document.getElementById('body').value,
+        auth: getAuthConfig()
+      };
+      // Collect headers
+      headersList.querySelectorAll('.header-row').forEach(row => {
+        const [keyInput, valueInput] = row.querySelectorAll('input');
+        if (keyInput.value) preview.headers[keyInput.value] = valueInput.value;
+      });
+      // Try to parse body as JSON
+      try { preview.body = JSON.parse(preview.body); } catch {}
+      document.getElementById('preview-json').textContent = JSON.stringify(preview, null, 2);
+    }
+    // Auth config collector
+    function getAuthConfig() {
+      const type = document.getElementById('auth-type').value;
+      if (type === 'bearer') {
+        return {
+          type: 'bearer',
+          url: document.getElementById('auth-url').value,
+          method: document.getElementById('auth-method').value,
+          headers: parseJsonField('auth-headers'),
+          body: parseJsonField('auth-body'),
+          tokenPath: document.getElementById('auth-token-path').value
+        };
+      } else if (type === 'basic') {
+        return {
+          type: 'basic',
+          username: document.getElementById('auth-username').value,
+          password: document.getElementById('auth-password').value
+        };
+      } else if (type === 'oauth2') {
+        return {
+          type: 'oauth2',
+          token_url: document.getElementById('oauth-token-url').value,
+          client_id: document.getElementById('oauth-client-id').value,
+          client_secret: document.getElementById('oauth-client-secret').value,
+          scope: document.getElementById('oauth-scope').value,
+          headers: parseJsonField('oauth-headers')
+        };
+      }
+      return undefined;
+    }
+    function parseJsonField(id) {
+      try { return JSON.parse(document.getElementById(id).value); } catch { return {}; }
+    }
+    // Add one empty header row by default
+    addHeaderRow('', '');
+  </script>
+</body>
+</html>

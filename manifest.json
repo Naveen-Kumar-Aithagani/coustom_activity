@@ -1,0 +1,58 @@
+{
+  "workflowApiVersion": "1.1",
+  "metaData": {
+    "icon": "https://sfmc-ca.vercel.app/icon.png",
+    "category": "custom"
+  },
+  "type": "REST",
+  "lang": {
+    "en-US": {
+      "name": "Postman-like API Call",
+      "description": "Makes custom API requests during journeys."
+    }
+  },
+  "arguments": {
+    "execute": {
+      "inArguments": [
+        {
+          "url": "{{Contact.Attribute.custom.url}}",
+          "method": "{{Contact.Attribute.custom.method}}",
+          "headers": "{{Contact.Attribute.custom.headers}}",
+          "body": "{{Contact.Attribute.custom.body}}",
+          "auth": "{{Contact.Attribute.custom.auth}}"
+        }
+      ],
+      "outArguments": [],
+      "url": "https://sfmc-ca.vercel.app/execute",
+      "timeout": 10000,
+      "retryCount": 3,
+      "retryDelay": 1000,
+      "concurrentRequests": 5,
+      "useJwt": false
+    }
+  },
+  "configurationArguments": {
+    "applicationExtensionKey": "postman-api-call-activity",
+    "save": {
+      "url": "https://sfmc-ca.vercel.app/save"
+    },
+    "validate": {
+      "url": "https://sfmc-ca.vercel.app/validate"
+    }
+  },
+  "userInterfaces": {
+    "configModal": {
+      "url": "https://sfmc-ca.vercel.app/public/index.html",
+      "height": 600,
+      "width": 800
+    }
+  },
+  "schema": {
+    "arguments": {
+      "execute": {
+        "inArguments": [],
+        "outArguments": []
+      }
+    }
+  }
+}
