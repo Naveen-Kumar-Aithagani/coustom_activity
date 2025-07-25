@@ -9,11 +9,19 @@
   "routes": [
     {
       "src": "/icon.png",
-      "dest": "/public/icon.png"
+      "dest": "/server.js"
     },
     {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
+      "src": "/manifest.json",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/index.html",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/customActivity.js",
+      "dest": "/server.js"
     },
     {
       "src": "/(.*)",

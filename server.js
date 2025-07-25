@@ -10,9 +10,21 @@ app.use(bodyParser.json());
 // Serve static files from the public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve the icon file specifically
+// Explicit routes for critical static files (for Vercel compatibility)
 app.get('/icon.png', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'icon.png'));
+});
+
+app.get('/manifest.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
+});
+
+app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/customActivity.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'customActivity.js'));
 });
 
 // Endpoint for Journey Builder to load the configuration UI
@@ -55,7 +67,7 @@ app.post('/save', (req, res) => {
   res.status(200).json({ success: true });
 });
 
-// Fallback for all other routes (optional)
+// Fallback for all other routes (optional) - must be last
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
