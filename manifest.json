@@ -13,15 +13,7 @@
   },
   "arguments": {
     "execute": {
-      "inArguments": [
-        {
-          "url": "{{Contact.Attribute.custom.url}}",
-          "method": "{{Contact.Attribute.custom.method}}",
-          "headers": "{{Contact.Attribute.custom.headers}}",
-          "body": "{{Contact.Attribute.custom.body}}",
-          "auth": "{{Contact.Attribute.custom.auth}}"
-        }
-      ],
+      "inArguments": ["url", "method", "headers", "body", "auth"],
       "outArguments": [],
       "url": "https://coustom-activity.vercel.app/execute",
       "timeout": 10000,
@@ -42,7 +34,7 @@
   },
   "userInterfaces": {
     "configModal": {
-      "url": "https://coustom-activity.vercel.app/public/index.html",
+      "url": "https://coustom-activity.vercel.app/index.html",
       "height": 600,
       "width": 800
     }
