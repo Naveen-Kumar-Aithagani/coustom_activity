@@ -34,7 +34,7 @@
   },
   "userInterfaces": {
     "configModal": {
-      "url": "/index.html",
+      "url": "https://coustom-activity.vercel.app/index.html",
       "height": 600,
       "width": 800
     }

@@ -7,6 +7,41 @@ const PORT = process.env.PORT || 3000;
 // Parse JSON bodies
 app.use(bodyParser.json());
 
+// Add CORS headers for Salesforce Journey Builder
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
+// Add request logging for debugging
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
+
+// Health check endpoint (must be before static middleware)
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      validate: '/validate',
+      save: '/save',
+      execute: '/execute',
+      manifest: '/manifest.json',
+      icon: '/icon.png'
+    }
+  });
+});
+
 // Serve static files from the public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -57,14 +92,24 @@ app.post('/execute', async (req, res) => {
 
 // Validate endpoint (Salesforce hits this before saving)
 app.post('/validate', (req, res) => {
-  console.log('🔍 Validate called');
-  res.status(200).json({ success: true });
+  console.log('🔍 Validate called with body:', JSON.stringify(req.body, null, 2));
+  try {
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('❌ Validate error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // Save endpoint (called when user configures and saves activity)
 app.post('/save', (req, res) => {
-  console.log('💾 Save called with:', req.body);
-  res.status(200).json({ success: true });
+  console.log('💾 Save called with body:', JSON.stringify(req.body, null, 2));
+  try {
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('❌ Save error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // Fallback for all other routes (optional) - must be last
